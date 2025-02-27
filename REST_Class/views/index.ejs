@@ -15,14 +15,18 @@
         <div>
             <h2 class="user" ><%= post.username %></h2>
             <p class = "content" ><%= post.content %></p>
+
+            <br>
+            <a href="http://localhost:<%= port %>/posts/<%= post.id%>">see in detail</a>
         </div>
 
        
     <%}%>
 
+
     <br>
     <br>
-    <a href="http://localhost:8080/posts/new">Insert Another Post</a>
+    <a href="http://localhost:<%= port %>/posts/new">Insert Another Post</a>
 
 </body>
 </html>
