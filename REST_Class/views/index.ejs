@@ -18,6 +18,11 @@
 
             <br>
             <a href="http://localhost:<%= port %>/posts/<%= post.id%>">see in detail</a>
+            <br>
+            <form method="POST" action = "/posts/<%= post.id %>?_method=DELETE">
+                <button>Delete Post</button>
+
+            </form>
         </div>
 
        

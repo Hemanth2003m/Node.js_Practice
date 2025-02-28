@@ -4,15 +4,17 @@ const port = 3001;
 const path = require('path');
 const { v4: uuidv4 } = require('uuid');
 uuidv4();
+const methodOverride = require('method-override');  //used for patch and delete
+app.use(methodOverride('_method'));
 
 
 app.use(express.urlencoded({ extended: true }));
 
-app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "ejs"); //used for ejs
+app.set("views", path.join(__dirname, "views")); //used for ejs
 
 
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "public"))); //used for css
 
 let posts = [{
     id: uuidv4(),
@@ -65,6 +67,12 @@ app.patch("/posts/:id", (req, res) => {
     console.log(newContent);
     res.send ("patch is working");
 
+});
+
+app.delete("/posts/:id", (req, res) => {
+    let { id } = req.params;
+     posts = posts.filter((p) => id !== p.id);
+    res.redirect("/posts");
 });
 
 
