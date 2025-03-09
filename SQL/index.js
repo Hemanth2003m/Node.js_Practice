@@ -91,6 +91,73 @@ app.get("/user" , (req, res) => {
 
   });
 
+  app.get("/user/post", (req, res) =>{
+
+    res.render("post.ejs");
+});
+
+  //post user
+  app.post("/user", (req, res) => {
+    let {username: name, email: email, password: password} = req.body;
+    let q3 = `insert into user (id, name, email, password) values ('${faker.string.uuid()}', '${name}', '${email}', '${password}');`
+
+    try {
+      connection.query(q3, (err, result) => {
+          if(err) throw err;
+         
+         
+          res.redirect('/user'); 
+      }); 
+      } catch (err){
+          console.log(err);
+          res.send(err);
+      } 
+  });
+
+  app.get("/user/:id/delete", (req, res) => 
+  {
+    let { id } = req.params; 
+  let q = `SELECT * FROM user WHERE id='${id}'`;
+
+  try {
+    connection.query(q, (err, result) => {
+      if (err) throw err;
+      let user = result[0];
+      res.render("del.ejs", { user }); //we need to send this user object to del.ejs 
+                                       // for the "<%= user.id %>"   
+    });
+  } catch (err) {
+    res.send("some error with DB");
+  }
+  });
+
+// delete user
+  app.delete("/user/:id", (req, res) =>{
+    let {id} = req.params;
+    let {email: email, password: formpassword} = req.body;
+    let q4 = `select * from user where id = '${id}';`
+      
+    try{
+      connection.query(q4, (err, result) => {
+        if (err) throw err;
+        let user = result[0];
+        if(user.password != formpassword){
+          res.send("password is incorrect");
+        }else{
+          let q5 = `delete from user where password ='${formpassword}';`
+          connection.query(q5, (err, result) => {
+            if(err) throw err;
+            res.redirect('/user');
+        });
+        }
+      });
+    } catch(err){
+      console.log(err);
+      res.send(err);
+    }
+  }); 
+
+
 app.listen(5001, () => {
     console.log("Server is running on port 3306");
 });

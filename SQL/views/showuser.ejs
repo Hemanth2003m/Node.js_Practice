@@ -12,6 +12,10 @@
 </head>
 <body>
     <table>
+        <form method="get" action = "/user/post">
+            <button>Add</button>
+        </form>
+    
         <tr>
             <th>Id</th>
             <th>Email</th>
@@ -27,9 +31,19 @@
                 <form method="get" action = "/user/<%= user.id %>/edit">
                     <button>Edit</button>
                 </form>
+
             </td>
+            <td>
+                <form method="get" action = "/user/<%= user.id %>/delete">
+                    <button>Delete</button>
+                </form>
+            </td>
+            
+                
             </tr>
             <% } %>
+
+            
     </table>
     
 </body>
